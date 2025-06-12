@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Contact Form</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <nav class="main-nav">
+    <a href="index.html">🏠 Home</a>
+    <a href="todo.html">📝 To-Do</a>
+    <a href="quiz.html">🧠 Quiz</a>
+    <a href="joke.html">😂 Joke</a>
+    <a href="contact.html">📬 Contact</a>
+    <a href="layout.html">📄 Layout</a>
+    <button id="themeToggle">🌙</button>
+  </nav>
+
+  <main>
+    <h2>📬 Contact Us</h2>
+    <form id="contactForm">
+      <label>Name:</label>
+      <input type="text" id="name" required />
+
+      <label>Email:</label>
+      <input type="email" id="email" required />
+
+      <label>Message:</label>
+      <textarea id="message" required></textarea>
+
+      <button type="submit">Submit</button>
+      <p id="formMessage"></p>
+    </form>
+  </main>
+
+  <script>
+    document.getElementById("contactForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const name = document.getElementById("name").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const message = document.getElementById("message").value.trim();
+      const emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
+
+      if (!name || !emailPattern.test(email) || !message) {
+        document.getElementById("formMessage").textContent = "❌ Please enter valid information.";
+        return;
+      }
+      document.getElementById("formMessage").textContent = "✅ Message sent successfully!";
+    });
+  </script>
+  <script src="script.js"></script>
+</body>
+</html>
+n

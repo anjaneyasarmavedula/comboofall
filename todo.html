@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>To-Do List</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <nav class="main-nav">
+    <a href="index.html">🏠 Home</a>
+    <a href="todo.html">📝 To-Do</a>
+    <a href="quiz.html">🧠 Quiz</a>
+    <a href="joke.html">😂 Joke</a>
+    <a href="contact.html">📬 Contact</a>
+    <a href="layout.html">📄 Layout</a>
+    <button id="themeToggle">🌙</button>
+  </nav>
+
+  <main>
+    <h2>📝 My Task Scheduler</h2>
+    <input type="text" id="taskInput" placeholder="Task description" />
+    <input type="date" id="startDate" />
+    <input type="date" id="endDate" />
+    <input type="time" id="taskTime" />
+    <button onclick="addTask()">Add Task</button>
+    <ul id="taskList"></ul>
+  </main>
+
+  <script>
+    function addTask() {
+      const desc = document.getElementById("taskInput").value;
+      const start = document.getElementById("startDate").value;
+      const end = document.getElementById("endDate").value;
+      const time = document.getElementById("taskTime").value;
+
+      if (!desc || !start || !end || !time) return;
+
+      const li = document.createElement("li");
+      li.innerHTML = `
+        <strong>${desc}</strong><br>
+        Start: ${start} | End: ${end} | Time: ${time}
+        <button onclick="this.parentElement.remove()">❌</button>
+      `;
+      document.getElementById("taskList").appendChild(li);
+    }
+  </script>
+  <script src="script.js"></script>
+</body>
+</html>
