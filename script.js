@@ -45,18 +45,13 @@ if (document.getElementById("carouselImage")) {
 }
 
 // ===============================
-// 🧠 QUIZ LOGIC + CHARTS
+// 🧠 PERSONAL QUIZ LOGIC + CHARTS
 // ===============================
 const quizData = [
-  { question: "What does HTML stand for?", options: ["Hyper Trainer Marking Language", "HyperText Markup Language", "HyperText Markdown Language"], answer: "HyperText Markup Language" },
-  { question: "Which property is used for background color in CSS?", options: ["color", "background-color", "bgcolor"], answer: "background-color" },
-  { question: "What does DOM stand for?", options: ["Document Object Model", "Digital Object Module", "Data Object Map"], answer: "Document Object Model" },
-  { question: "What tag is used for JavaScript?", options: ["<script>", "<js>", "<javascript>"], answer: "<script>" },
-  { question: "Which CSS property controls text size?", options: ["font-style", "text-size", "font-size"], answer: "font-size" },
-  { question: "Which function displays output in the browser console?", options: ["alert()", "log()", "console.log()"], answer: "console.log()" },
-  { question: "What does CSS stand for?", options: ["Color Style Sheets", "Cascading Style Sheets", "Creative Style Sheets"], answer: "Cascading Style Sheets" },
-  { question: "What symbol is used for comments in JavaScript?", options: ["//", "#", "/* */"], answer: "//" },
-  { question: "What layout system uses rows and columns?", options: ["Flexbox", "CSS Grid", "Table"], answer: "CSS Grid" },
+  { question: "How many hours did I work today?", options: ["2", "4", "6", "8", "10+"], answer: null },
+  { question: "What types of tasks did I do today?", options: ["Coding", "Meetings", "Documentation", "Debugging", "Learning"], answer: null },
+  { question: "Did I take breaks regularly?", options: ["Yes", "No"], answer: null },
+  { question: "Was today productive overall?", options: ["Yes", "No", "Neutral"], answer: null }
 ];
 
 const quizContainer = document.getElementById("quizContainer");
@@ -69,74 +64,76 @@ if (quizContainer && submitQuiz && quizResult) {
     div.classList.add("quiz-question");
     div.innerHTML = `<p>${index + 1}. ${q.question}</p>` + q.options.map(opt =>
       `<label class="quiz-option">
-        <input type="radio" name="q${index}" value="${opt}"> ${opt}
+        <input type="${q.answer === null ? "checkbox" : "radio"}" name="q${index}" value="${opt}"> ${opt}
       </label>`).join('');
     quizContainer.appendChild(div);
   });
 
   submitQuiz.onclick = () => {
-    let score = 0;
+    const results = {};
+
     quizData.forEach((q, index) => {
-      const selected = document.querySelector(`input[name='q${index}']:checked`);
-      const options = document.querySelectorAll(`input[name='q${index}']`);
-
-      options.forEach(option => {
-        const parent = option.parentElement;
-        parent.classList.remove("correct", "incorrect");
-        if (option.value === q.answer) {
-          parent.classList.add("correct");
-        } else if (option.checked) {
-          parent.classList.add("incorrect");
-        }
-      });
-
-      if (selected && selected.value === q.answer) score++;
+      const selectedOptions = document.querySelectorAll(`input[name='q${index}']:checked`);
+      results[`q${index}`] = Array.from(selectedOptions).map(opt => opt.value);
     });
 
-    quizResult.textContent = `You scored ${score} out of ${quizData.length}`;
-    showCharts(score, quizData.length - score);
+    quizResult.textContent = "Summary recorded. See visual breakdown below.";
+    showChartsPersonal(results);
   };
 }
 
 // ===============================
-// 📊 CHART RENDERING
+// 📊 PERSONAL CHART RENDERING
 // ===============================
-function showCharts(correct, incorrect) {
+function showChartsPersonal(results) {
   const pieCtx = document.getElementById("quizPieChart")?.getContext("2d");
   const barCtx = document.getElementById("quizBarChart")?.getContext("2d");
+
+  if (!results || !results.q1) return;
+
+  // Count task types
+  const taskCounts = {};
+  results.q1?.forEach(task => {
+    taskCounts[task] = (taskCounts[task] || 0) + 1;
+  });
+
+  const taskLabels = Object.keys(taskCounts);
+  const taskData = taskLabels.map(label => taskCounts[label]);
 
   if (pieCtx) {
     new Chart(pieCtx, {
       type: "pie",
       data: {
-        labels: ["Correct", "Incorrect"],
+        labels: taskLabels.length ? taskLabels : ["No tasks selected"],
         datasets: [{
-          data: [correct, incorrect],
-          backgroundColor: ["#28a745", "#dc3545"]
+          data: taskData.length ? taskData : [1],
+          backgroundColor: ["#007bff", "#28a745", "#ffc107", "#dc3545", "#6610f2"]
         }]
       }
     });
   }
 
   if (barCtx) {
+    const hours = parseInt(results.q0?.[0]) || 0;
     new Chart(barCtx, {
       type: "bar",
       data: {
-        labels: ["Correct", "Incorrect"],
+        labels: ["Hours Worked"],
         datasets: [{
-          label: "Score",
-          data: [correct, incorrect],
-          backgroundColor: ["#007bff", "#ffc107"]
+          label: "Hours",
+          data: [hours],
+          backgroundColor: ["#17a2b8"]
         }]
       },
       options: {
         scales: {
-          y: { beginAtZero: true, max: 10 }
+          y: { beginAtZero: true, max: 24 }
         }
       }
     });
   }
 }
+
 
 // ===============================
 // 😂 JOKE API
