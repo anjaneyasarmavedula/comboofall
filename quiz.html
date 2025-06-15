@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Quiz</title>
+  <title>Daily Productivity Tracker</title>
   <link rel="stylesheet" href="styles.css" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
@@ -11,7 +11,7 @@
   <nav class="main-nav">
     <a href="index.html">🏠 Home</a>
     <a href="todo.html">📝 To-Do</a>
-    <a href="quiz.html">🧠 Quiz</a>
+    <a href="quiz.html">📊 Daily Tracker</a>
     <a href="joke.html">😂 Joke</a>
     <a href="contact.html">📬 Contact</a>
     <a href="layout.html">📄 Layout</a>
@@ -19,14 +19,17 @@
   </nav>
 
   <main>
-    <h2>🧠 Web Quiz</h2>
+    <h2>📊 Daily Productivity Tracker</h2>
+    <p>Reflect on your day and track your work habits.</p>
+
     <div id="quizContainer"></div>
     <button id="submitQuiz">Submit</button>
     <p id="quizResult"></p>
-    <div class="chart-group">
-      <canvas id="quizPieChart" width="200" height="200"></canvas>
-      <canvas id="quizBarChart" width="200" height="200"></canvas>
-    </div>
+
+    <section class="chart-group">
+      <canvas id="quizPieChart" width="300" height="300"></canvas>
+      <canvas id="quizBarChart" width="300" height="300"></canvas>
+    </section>
   </main>
 
   <script src="script.js"></script>
