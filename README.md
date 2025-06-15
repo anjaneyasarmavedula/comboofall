@@ -41,10 +41,9 @@ Built using **HTML, CSS, and JavaScript**, this project showcases DOM manipulati
 - Shows 3 motivational slides
 - Navigation controls
 
-### 🧠 Quiz Section
-- 10-question MCQ quiz
-- Instant feedback (✅❌)
-- Chart.js: Pie & Bar chart for score breakdown
+### 🧠 Quiz Section Which is personal productivity section
+- Few questions in the form of MCQ 's.
+- Chart.js: Pie & Bar chart for Analysis
 
 ### 😂 Joke Generator
 - Programming jokes from JokeAPI
